@@ -7,4 +7,5 @@ type Engine interface {
 	CreateQueue(ctx context.Context, name string) (Queue, error)
 	DeleteQueue(ctx context.Context, name string) error
 	PurgeQueue(ctx context.Context, name string) error
+	Close() error
 }

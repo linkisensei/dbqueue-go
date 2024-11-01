@@ -13,4 +13,5 @@ type Queue interface {
 	DeleteMessageBatch(ctx context.Context, ids []uint) error
 	ChangeMessageVisibility(ctx context.Context, id uint, visibilityTimeout time.Duration) error
 	ChangeMessageVisibilityBatch(ctx context.Context, ids []uint, visibilityTimeout time.Duration) error
+	Close() error
 }

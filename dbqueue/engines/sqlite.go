@@ -76,6 +76,10 @@ func (p *sqliteEngine) PurgeQueue(ctx context.Context, name string) error {
 	return execErr
 }
 
+func (p *sqliteEngine) Close() error {
+	return p.db.Close()
+}
+
 func (p *sqliteQueue) ReceiveMessage(ctx context.Context, fun func(message types.ReceivedMessage),
 	options types.ReceiveMessageOptions) error {
 	opts := options.Defaults()
@@ -209,4 +213,8 @@ func (p *sqliteQueue) ChangeMessageVisibilityBatch(ctx context.Context, ids []ui
 	}
 
 	return nil
+}
+
+func (p *sqliteQueue) Close() error {
+	return p.db.Close()
 }

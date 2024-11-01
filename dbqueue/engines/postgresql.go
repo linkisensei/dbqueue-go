@@ -77,6 +77,10 @@ func (p *postgreSQLEngine) PurgeQueue(ctx context.Context, name string) error {
 	return execErr
 }
 
+func (p *postgreSQLEngine) Close() error {
+	return p.db.Close()
+}
+
 func (p *postgreSQLQueue) ReceiveMessage(ctx context.Context,
 	fun func(message types.ReceivedMessage), options types.ReceiveMessageOptions) error {
 	opts := options.Defaults()
@@ -175,4 +179,8 @@ func (p *postgreSQLQueue) ChangeMessageVisibilityBatch(ctx context.Context, ids 
 	query := fmt.Sprintf(`UPDATE %s SET visible_after = $1 WHERE id = ANY($2);`, p.table)
 	_, execErr := p.db.Exec(ctx, query, time.Now().Add(visibilityTimeout).Unix(), ids)
 	return execErr
+}
+
+func (p *postgreSQLQueue) Close() error {
+	return p.db.Close()
 }

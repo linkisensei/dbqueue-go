@@ -78,6 +78,10 @@ func (p *mysqlEngine) PurgeQueue(ctx context.Context, name string) error {
 	return execErr
 }
 
+func (p *mysqlEngine) Close() error {
+	return p.db.Close()
+}
+
 func (p *mysqlQueue) ReceiveMessage(ctx context.Context, fun func(message types.ReceivedMessage),
 	options types.ReceiveMessageOptions) error {
 	opts := options.Defaults()
@@ -238,4 +242,9 @@ func (p *mysqlQueue) ChangeMessageVisibilityBatch(ctx context.Context, ids []uin
 	}
 
 	return nil
+}
+
+
+func (p *mysqlQueue) Close() error {
+	return p.db.Close()
 }
